@@ -1,11 +1,6 @@
 <?php
 
-use Abdiwaahid\LanguageSwitcher\LanguageSwitcher;
 use Illuminate\Support\Facades\Route;
+use Abdiwaahid\LanguageSwitcher\Http\Controllers\LanguageSwitcherController;
 
-Route::get('/language-switcher/switch/{locale}', function ($locale) {
-    $locale = LanguageSwitcher::set($locale);
-    LanguageSwitcher::switch($locale);
-
-    return redirect()->back();
-})->name('language-switcher.switch');
+Route::get('/language-switcher/switch/{locale}', LanguageSwitcherController::class)->name('language-switcher.switch');
