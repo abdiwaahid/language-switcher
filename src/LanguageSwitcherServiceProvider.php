@@ -3,6 +3,8 @@
 namespace Abdiwaahid\LanguageSwitcher;
 
 use Abdiwaahid\LanguageSwitcher\Commands\LanguageSwitcherCommand;
+use Abdiwaahid\LanguageSwitcher\Http\Middleware\LanguageSwitcherMiddleware;
+use Illuminate\Routing\Router;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -22,5 +24,11 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
             ->hasRoute('web')
             ->hasTranslations()
             ->hasCommand(LanguageSwitcherCommand::class);
+    }
+
+    public function packageBooted()
+    {
+        $router = $this->app->make(Router::class);
+        $router->pushMiddlewareToGroup('web', LanguageSwitcherMiddleware::class);
     }
 }
