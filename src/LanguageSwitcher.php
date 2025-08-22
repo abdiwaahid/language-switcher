@@ -2,22 +2,23 @@
 
 namespace Abdiwaahid\LanguageSwitcher;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Lang;
 
 class LanguageSwitcher
 {
-    public static function switch($locale)
+    public static function switch(string $locale): void
     {
         app()->setLocale($locale);
     }
 
-    public static function set($locale)
+    public static function set(string $locale): string
     {
         $driver = config('language-switcher.driver', 'session');
         if ($driver === 'session') {
-            return session()->put(static::getKey(), $locale);
+            session()->put(static::getKey(), $locale);
         } else {
             Cache::forever(static::getKey(), $locale);
         }
@@ -25,7 +26,7 @@ class LanguageSwitcher
         return $locale;
     }
 
-    public static function get()
+    public static function get(): string
     {
 
         $driver = config('language-switcher.driver', 'session');
@@ -51,17 +52,17 @@ class LanguageSwitcher
         return $key.request()->ip();
     }
 
-    public static function languages()
+    public static function languages(): Collection
     {
         return collect(config('language-switcher.languages'))->filter(fn ($name, $locale) => $locale !== static::get());
     }
 
-    public static function translationKeyFallback($key, $params, $fallback)
+    public static function translationKeyFallback(string $key, array $params, string $fallback): string
     {
         return Lang::has($key) ? __($key, $params) : $fallback;
     }
 
-    public static function configureLanguages(array $languages)
+    public static function configureLanguages(array $languages): void
     {
         config([
             'language-switcher.languages' => $languages,
