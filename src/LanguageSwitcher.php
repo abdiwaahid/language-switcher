@@ -18,9 +18,10 @@ class LanguageSwitcher
         $driver = config('language-switcher.driver', 'session');
         if ($driver === 'session') {
             return session()->put(static::getKey(), $locale);
-        }else{
+        } else {
             Cache::forever(static::getKey(), $locale);
         }
+
         return $locale;
     }
 
@@ -31,6 +32,7 @@ class LanguageSwitcher
         if ($driver === 'session') {
             return session()->get(static::getKey(), app()->getLocale());
         }
+
         return Cache::get(static::getKey(), app()->getLocale());
     }
 
@@ -43,15 +45,15 @@ class LanguageSwitcher
 
         $guard = config('language-switcher.guard');
         if ($guard && Auth::guard($guard)->check()) {
-            return $key . Auth::guard($guard)->id();
+            return $key.Auth::guard($guard)->id();
         }
 
-        return $key . request()->ip();
+        return $key.request()->ip();
     }
 
     public static function languages()
     {
-        return collect(config('language-switcher.languages'))->filter(fn($name, $locale) => $locale !== static::get());
+        return collect(config('language-switcher.languages'))->filter(fn ($name, $locale) => $locale !== static::get());
     }
 
     public static function translationKeyFallback($key, $params, $fallback)
