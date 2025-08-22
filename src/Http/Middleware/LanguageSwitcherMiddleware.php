@@ -5,8 +5,6 @@ namespace Abdiwaahid\LanguageSwitcher\Http\Middleware;
 use Abdiwaahid\LanguageSwitcher\Facades\LanguageSwitcher;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class LanguageSwitcherMiddleware
@@ -20,6 +18,7 @@ class LanguageSwitcherMiddleware
     {
         $locale = LanguageSwitcher::get();
         LanguageSwitcher::switch($locale);
+
         return $next($request);
     }
 }

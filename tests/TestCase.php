@@ -2,9 +2,9 @@
 
 namespace Abdiwaahid\LanguageSwitcher\Tests;
 
+use Abdiwaahid\LanguageSwitcher\LanguageSwitcherServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Abdiwaahid\LanguageSwitcher\LanguageSwitcherServiceProvider;
 
 class TestCase extends Orchestra
 {

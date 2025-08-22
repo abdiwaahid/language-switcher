@@ -2,11 +2,9 @@
 
 namespace Abdiwaahid\LanguageSwitcher;
 
+use Abdiwaahid\LanguageSwitcher\Commands\LanguageSwitcherCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Abdiwaahid\LanguageSwitcher\Commands\LanguageSwitcherCommand;
-use Abdiwaahid\LanguageSwitcher\Http\Middleware\LanguageSwitcherMiddleware;
-use Illuminate\Routing\Router;
 
 class LanguageSwitcherServiceProvider extends PackageServiceProvider
 {

@@ -17,6 +17,7 @@ class LanguageSwitcher
     {
         $key = static::getKey();
         Cache::forever($key, $locale);
+
         return $locale;
     }
 
@@ -30,17 +31,18 @@ class LanguageSwitcher
         $guard = config('language-switcher.guard');
         $key = config('language-switcher.key');
         if ($guard) {
-            return Auth::check() ? $key . auth($guard)->id() : $key . request()->ip();
+            return Auth::check() ? $key.auth($guard)->id() : $key.request()->ip();
         }
-        return $key . request()->ip();
+
+        return $key.request()->ip();
     }
 
     public static function languages()
     {
-        return collect(config('language-switcher.languages'))->filter(fn($name, $locale) => $locale !== static::get());
+        return collect(config('language-switcher.languages'))->filter(fn ($name, $locale) => $locale !== static::get());
     }
 
-    public static function translationKeyFallback($key, $params = [], $fallback)
+    public static function translationKeyFallback($key, $params, $fallback)
     {
         return Lang::has($key) ? __($key, $params) : $fallback;
     }
