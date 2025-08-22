@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Abdiwaahid\LanguageSwitcher\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LanguageSwitcherCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'language-switcher';
 
     public $description = 'My command';
 
