@@ -9,6 +9,7 @@ class LanguageSwitcherController
     public function __invoke($locale)
     {
         LanguageSwitcher::set($locale);
+
         return redirect()->back();
     }
 }
