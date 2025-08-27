@@ -70,6 +70,14 @@ You can also publish the translation files to add support for more languages or 
 php artisan vendor:publish --tag="language-switcher-translations"
 ```
 
+Finally, to use the provided CSS and JavaScript for the Blade component, publish the assets:
+
+```bash
+php artisan vendor:publish --tag="language-switcher-assets"
+```
+
+This will place a stylesheet and a script in your `public/vendor/language-switcher` directory.
+
 ## Usage
 
 ### 1. Configure Your Languages
@@ -82,6 +90,19 @@ First, you need to define the languages you want to support in the `config/langu
     'fr' => 'French',
 ],
 ```
+or you can simply configure the languages in the `AppServiceProvider`:
+
+```php
+public function boot(): void
+{
+    LanguageSwitcher::languages([
+        'en' => 'English',
+        'es' => 'Spanish',
+        'fr' => 'French',
+    ]);
+}
+```
+
 ### 2. Add the Middleware
 The package automatically registers the middleware for you. but if you want to add it manually, you can register it manually in your `bootstrap/app.php` file:
 
@@ -93,32 +114,99 @@ The package automatically registers the middleware for you. but if you want to a
         ]);
     });
 ```
-### 3. Use the Blade Component
+### 3. Add Styles and Scripts
+For the dropdown component to function and look its best, include the published assets in your main layout file (`resources/views/layouts/app.blade.php` or similar).
+
+The package provides two helpful Blade directives for this:
+
+```blade
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    ...
+    @languageSwitcherStyles
+</head>
+<body>
+    ...
+    <header>
+        <nav>
+            {{-- Your navigation --}}
+            <x-language-switcher />
+        </nav>
+    </header>
+    ...
+    @languageSwitcherScripts
+</body>
+</html>
+```
+
+### 4. Use the Blade Component
 The package comes with a ready-to-use Blade component to display the language switcher in your views. You can use it like this:
 ```blade
 <x-language-switcher::language-switcher />
 ```
 This will render a dropdown with the list of available languages. When a user clicks on a language, it will switch the application's locale and store it in the configured driver.
 
-### 4. Manually Switch Languages
-You can manually switch languages using the `LanguageSwitcher` facade:
+
+## Advanced Usage
+### Facade
+
+The package provides a `LanguageSwitcher` facade for more granular control.
+
+**Set the current locale:**
+This will update the locale in the configured storage driver (session or cache).
+
 ```php
 use Abdiwaahid\LanguageSwitcher\Facades\LanguageSwitcher;
 
-LanguageSwitcher::set('so');
+LanguageSwitcher::set('fr');
 ```
 
-To get the current locale:
+**Get the current locale:**
+
+This retrieves the locale from the storage driver.
 
 ```php
-$currentLocale = LanguageSwitcher::get();
+$currentLocale = LanguageSwitcher::get(); // returns 'fr'
 ```
 
-To get the list of available languages (excluding the current one):
+**Get available languages:**
+
+This returns a collection of all configured languages, excluding the current one. This is useful for building a custom language switcher UI.
 
 ```php
 $languages = LanguageSwitcher::languages();
 ```
+
+### Driver Configuration
+
+In the `config/language-switcher.php` file, you can choose the storage driver.
+
+-   `session`: (Default) The locale is stored in the user's session. This is suitable for most web applications.
+-   `cache`: The locale is stored in your application's cache. This can be useful for applications that don't use traditional sessions. The cache key is automatically generated based on the authenticated user's ID or the guest's IP address.
+
+```php
+// config/language-switcher.php
+'driver' => 'cache', // or 'session'
+```
+
+### Customization
+
+If you need to modify the look and feel of the language switcher, you can publish the views:
+
+```bash
+php artisan vendor:publish --tag="language-switcher-views"
+```
+
+The view files will be located in `resources/views/vendor/language-switcher`. You can edit them as you see fit.
+
+You can also publish the translation files to customize the language names displayed in the dropdown for different locales:
+
+```bash
+php artisan vendor:publish --tag="language-switcher-translations"
+```
+
+This will create translation files in `resources/lang/vendor/language-switcher`.
 
 ## Testing
 
