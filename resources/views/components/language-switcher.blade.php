@@ -5,7 +5,7 @@
 
 <x-language-switcher::dropdown>
     <x-slot name="trigger">
-        <button class="ring-1 ring-purple-200 bg-purple-50 px-2 py-1  rounded" type="button">
+        <button type="button">
             {{ str($currentLanguage)->upper() }}
         </button>
     </x-slot>
