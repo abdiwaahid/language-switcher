@@ -55,4 +55,6 @@ html[dir="rtl"] .language-switcher-dropdown-content {
 
 .language-switcher-trigger {
     cursor: pointer;
+    display: flex;
+    align-items: center;
 }
