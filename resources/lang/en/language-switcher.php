@@ -63,7 +63,6 @@ return [
     'lt' => 'Lithuanian',
     'ng' => 'Nigerian',
     'pl' => 'Polish',
-    'sa' => 'Saudi',
     'th' => 'Thai',
     'uz' => 'Uzbek',
 ];

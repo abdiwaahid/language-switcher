@@ -63,7 +63,6 @@ return [
     'lt' => 'Lituweeniyaan',
     'ng' => 'Nayjeeriyaan',
     'pl' => 'Boolaan',
-    'sa' => 'Sacuudi',
     'th' => 'Taylaan',
     'uz' => 'Usbekistaan',
 ];
