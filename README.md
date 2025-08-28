@@ -10,11 +10,8 @@ A simple language switcher for your Laravel applications. This package provides 
 ## Features
 *   **Easy Language Switching:** A straightforward way to let users change their preferred language.
 *   **Multiple Drivers:** Supports both `session` and `cache` drivers for storing the user's selected language.
-*   **User-Aware Caching:** When using the `cache` driver, the locale is cached specifically for each authenticated user or fallback to IP address for guests.
+*   **User-Aware Caching:** When using the `cache` driver, the locale is cached specifically for each authenticated user.
 *   **Facade for Convenience:** A clean and simple facade for easy interaction with the package's functionality.
-*   **Middleware:** Automatically sets the application's locale on every request based on the user's preference.
-*   **Blade Component:** A ready-to-use and customizable Blade component for a quick and easy frontend implementation.
-*   **Easy Configuration:** A simple configuration file to manage your languages and other options.
 
 ## Installation
 
@@ -22,13 +19,6 @@ You can install the package via composer:
 
 ```bash
 composer require abdiwaahid/language-switcher
-```
-
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --tag="language-switcher-migrations"
-php artisan migrate
 ```
 
 You can publish the config file with:
@@ -52,6 +42,7 @@ return [
     'key' => 'locale_',
 
     'languages' => [
+	    'so' => 'Somali',
         ....
     ],
 ];
@@ -146,6 +137,52 @@ The package comes with a ready-to-use Blade component to display the language sw
 <x-language-switcher::language-switcher />
 ```
 This will render a dropdown with the list of available languages. When a user clicks on a language, it will switch the application's locale and store it in the configured driver.
+
+### 5. Usage with FilamentPHP
+
+To integrate the language switcher with a [FilamentPHP](https://filamentphp.com/) admin panel, you can register the component and its assets within the service provider.
+
+First, make sure you have published the package assets:
+```bash
+php artisan vendor:publish --tag="language-switcher-assets"```
+
+Then, in the `register` method of your service provider, add the following:
+
+```php
+use Abdiwaahid\LanguageSwitcher\Facades\LanguageSwitcher;
+use Filament\Facades\Filament;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\View\PanelsRenderHook;
+
+public function register(): void
+{
+    // Register the language switcher assets
+    FilamentAsset::register([
+        Css::make('language-switcher-css', asset('vendor/language-switcher/main.css')),
+        Js::make('language-switcher-js', asset('vendor/language-switcher/index.js')),
+    ], 'abdiwaahid/language-switcher');
+
+    // Configure the languages you want to support
+    LanguageSwitcher::configureLanguages([
+        'so' => 'Somali',
+        'en' => 'English',
+        'ar' => 'Arabic',
+    ]);
+
+    // Render the component in the user menu
+    Filament::registerRenderHook(
+        PanelsRenderHook::USER_MENU_BEFORE,
+        fn () => view('language-switcher::components.language-switcher')
+    );
+}
+```
+
+This will:
+1.  Load the necessary CSS and JavaScript for the dropdown component.
+2.  Configure the available languages for the switcher.
+3.  Render the language switcher component right before the default user menu in the Filament panel.
 
 
 ## Advanced Usage
