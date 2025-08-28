@@ -30,18 +30,19 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         $this->publishes([
-            __DIR__.'/../resources/assets/css/main.css' => public_path('css/language-switcher/main.css'),
-            __DIR__.'/../resources/assets/js/index.js' => public_path('js/language-switcher/index.js'),
+            __DIR__.'/../resources/assets/css/main.css' => public_path('vendor/language-switcher/main.css'),
+            __DIR__.'/../resources/assets/js/index.js' => public_path('vendor/language-switcher/index.js'),
+            __DIR__.'/../resources/assets/img/flags' => public_path('vendor/language-switcher/flags'),
         ], 'language-switcher-assets');
 
         Blade::directive('languageSwitcherStyles', function () {
             return <<<'HTML'
-                <link rel="stylesheet" href="{{ asset('css/language-switcher/main.css') }}">
+                <link rel="stylesheet" href="{{ asset('vendor/language-switcher/main.css') }}">
             HTML;
         });
         Blade::directive('languageSwitcherScripts', function () {
             return <<<'HTML'
-                <script src="{{ asset('js/language-switcher/index.js') }}"></script>
+                <script src="{{ asset('vendor/language-switcher/index.js') }}"></script>
             HTML;
         });
 
