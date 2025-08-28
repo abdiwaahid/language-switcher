@@ -95,7 +95,7 @@ or you can simply configure the languages in the `AppServiceProvider`:
 ```php
 public function boot(): void
 {
-    LanguageSwitcher::languages([
+    LanguageSwitcher::configureLanguages([
         'en' => 'English',
         'es' => 'Spanish',
         'fr' => 'French',
@@ -131,7 +131,7 @@ The package provides two helpful Blade directives for this:
     <header>
         <nav>
             {{-- Your navigation --}}
-            <x-language-switcher />
+            <x-language-switcher::language-switcher />
         </nav>
     </header>
     ...
