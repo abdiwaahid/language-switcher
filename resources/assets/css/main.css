@@ -15,6 +15,11 @@
     transition: all 0.3s ease;
 }
 
+html[dir="rtl"] #language-switcher-dropdown-content {
+    right: auto;
+    left: 0;
+}
+
 #language-switcher-dropdown-item {
     cursor: pointer;
     display: flex;
