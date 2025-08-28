@@ -1,3 +1,3 @@
-<a {{ $attributes->merge(['id' => 'language-switcher-dropdown-item',]) }}>
+<a {{ $attributes->merge(['class' => 'language-switcher-dropdown-item']) }}>
     {{ $slot }}
 </a>

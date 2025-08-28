@@ -1,5 +1,5 @@
-const trigger = document.getElementById('language-switcher-dropdown-trigger');
-const content = document.getElementById('language-switcher-dropdown-content');
+const trigger = document.querySelector('.language-switcher-trigger');
+const content = document.querySelector('.language-switcher-dropdown-content');
 
 trigger.addEventListener('click', () => {
     content.classList.toggle('hidden');

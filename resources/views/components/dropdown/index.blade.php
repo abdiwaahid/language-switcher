@@ -1,8 +1,8 @@
-<div id="language-switcher-dropdown" class="relative">
-    <div id="language-switcher-dropdown-trigger">
+<div class="language-switcher-dropdown relative">
+    <div class="language-switcher-dropdown-trigger">
         {{ $trigger }}
     </div>
-    <div id="language-switcher-dropdown-content" class="hidden">
+    <div class="language-switcher-dropdown-content hidden">
         {{ $slot }}
     </div>
 </div>

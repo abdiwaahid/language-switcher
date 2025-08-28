@@ -5,7 +5,7 @@
 
 <x-language-switcher::dropdown>
     <x-slot name="trigger">
-        <button id="language-switcher-trigger">
+        <button class="language-switcher-trigger">
             <x-language-switcher::flag :language="$currentLanguage" />
         </button>
     </x-slot>
