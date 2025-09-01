@@ -57,6 +57,7 @@ class LanguageSwitcher
         if ($includeCurrent) {
             return collect(config('language-switcher.languages'));
         }
+
         return collect(config('language-switcher.languages'))->filter(fn ($name, $locale) => $locale !== static::get());
     }
 

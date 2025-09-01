@@ -30,8 +30,8 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         $this->publishes([
-            __DIR__ . '/../resources/assets/css/main.css' => public_path('vendor/language-switcher/main.css'),
-            __DIR__ . '/../resources/assets/js/index.js' => public_path('vendor/language-switcher/index.js'),
+            __DIR__.'/../resources/assets/css/main.css' => public_path('vendor/language-switcher/main.css'),
+            __DIR__.'/../resources/assets/js/index.js' => public_path('vendor/language-switcher/index.js'),
             ...$this->getLanguageFlagsToPublish(),
         ], 'language-switcher-assets');
 
@@ -55,8 +55,9 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
         $languages = LanguageSwitcher::languages(true);
         $array = [];
         foreach ($languages as $language => $name) {
-            $array[__DIR__ . '/../resources/assets/img/flags/' . $language . '.png'] = public_path('vendor/language-switcher/flags/' . $language . '.png');
+            $array[__DIR__.'/../resources/assets/img/flags/'.$language.'.png'] = public_path('vendor/language-switcher/flags/'.$language.'.png');
         }
+
         return $array;
     }
 }
