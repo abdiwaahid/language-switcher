@@ -30,9 +30,9 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
     public function packageBooted()
     {
         $this->publishes([
-            __DIR__.'/../resources/assets/css/main.css' => public_path('vendor/language-switcher/main.css'),
-            __DIR__.'/../resources/assets/js/index.js' => public_path('vendor/language-switcher/index.js'),
-            __DIR__.'/../resources/assets/img/flags' => public_path('vendor/language-switcher/flags'),
+            __DIR__ . '/../resources/assets/css/main.css' => public_path('vendor/language-switcher/main.css'),
+            __DIR__ . '/../resources/assets/js/index.js' => public_path('vendor/language-switcher/index.js'),
+            ...$this->getLanguageFlagsToPublish(),
         ], 'language-switcher-assets');
 
         Blade::directive('languageSwitcherStyles', function () {
@@ -48,5 +48,15 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
 
         $router = $this->app->make(Router::class);
         $router->pushMiddlewareToGroup('web', LanguageSwitcherMiddleware::class);
+    }
+
+    private function getLanguageFlagsToPublish(): array
+    {
+        $languages = LanguageSwitcher::languages(true);
+        $array = [];
+        foreach ($languages as $language => $name) {
+            $array[__DIR__ . '/../resources/assets/img/flags/' . $language . '.png'] = public_path('vendor/language-switcher/flags/' . $language . '.png');
+        }
+        return $array;
     }
 }

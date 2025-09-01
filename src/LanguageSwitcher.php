@@ -52,8 +52,11 @@ class LanguageSwitcher
         return $key.request()->ip();
     }
 
-    public static function languages(): Collection
+    public static function languages(bool $includeCurrent = false): Collection
     {
+        if ($includeCurrent) {
+            return collect(config('language-switcher.languages'));
+        }
         return collect(config('language-switcher.languages'))->filter(fn ($name, $locale) => $locale !== static::get());
     }
 
