@@ -1,4 +1,4 @@
-const trigger = document.querySelector('.language-switcher-trigger');
+const trigger = document.querySelector('.language-switcher-dropdown-trigger');
 const content = document.querySelector('.language-switcher-dropdown-content');
 
 trigger.addEventListener('click', () => {
