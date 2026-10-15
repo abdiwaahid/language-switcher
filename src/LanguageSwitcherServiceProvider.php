@@ -4,6 +4,7 @@ namespace Abdiwaahid\LanguageSwitcher;
 
 use Abdiwaahid\LanguageSwitcher\Commands\LanguageSwitcherCommand;
 use Abdiwaahid\LanguageSwitcher\Http\Middleware\LanguageSwitcherMiddleware;
+use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Spatie\LaravelPackageTools\Package;
@@ -46,16 +47,34 @@ class LanguageSwitcherServiceProvider extends PackageServiceProvider
             HTML;
         });
 
-        $router = $this->app->make(Router::class);
-        $router->pushMiddlewareToGroup('web', LanguageSwitcherMiddleware::class);
+        $this->registerMiddleware();
+    }
+
+    private function registerMiddleware(): void
+    {
+        // Resolve the HTTP kernel before touching the router's middleware groups.
+        // Since Laravel 11 the default groups are synced to the router from the
+        // kernel's `withMiddleware` configuration, which would otherwise
+        // overwrite any middleware pushed onto the `web` group during boot.
+        $this->app->make(HttpKernel::class);
+
+        $this->app->make(Router::class)
+            ->pushMiddlewareToGroup('web', LanguageSwitcherMiddleware::class);
     }
 
     private function getLanguageFlagsToPublish(): array
     {
         $languages = LanguageSwitcher::languages(true);
         $array = [];
-        foreach ($languages as $language => $name) {
-            $array[__DIR__.'/../resources/assets/img/flags/'.$language.'.png'] = public_path('vendor/language-switcher/flags/'.$language.'.png');
+
+        foreach (array_keys($languages->all()) as $language) {
+            $source = __DIR__.'/../resources/assets/img/flags/'.$language.'.png';
+
+            if (! file_exists($source)) {
+                continue;
+            }
+
+            $array[$source] = public_path('vendor/language-switcher/flags/'.$language.'.png');
         }
 
         return $array;

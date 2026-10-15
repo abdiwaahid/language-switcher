@@ -1,4 +1,6 @@
 @php
+    use Abdiwaahid\LanguageSwitcher\Facades\LanguageSwitcher;
+
     $languages = LanguageSwitcher::languages();
     $currentLanguage = LanguageSwitcher::get();
 @endphp
@@ -7,12 +9,10 @@
     <x-slot name="trigger">
         <x-language-switcher::flag :language="$currentLanguage" />
     </x-slot>
-    <div name="content">
-        @foreach ($languages as $language => $name)
-            <x-language-switcher::dropdown.item :href="route('language-switcher.switch', $language)">
-                <x-language-switcher::flag :language="$language" />
-                {{ LanguageSwitcher::translationKeyFallback('language-switcher::language-switcher.' . $language, [], $name) }}
-            </x-language-switcher::dropdown.item>
-        @endforeach
-    </div>
+    @foreach ($languages as $language => $name)
+        <x-language-switcher::dropdown.item :href="route('language-switcher.switch', $language)">
+            <x-language-switcher::flag :language="$language" />
+            {{ LanguageSwitcher::translationKeyFallback('language-switcher::language-switcher.' . $language, [], $name) }}
+        </x-language-switcher::dropdown.item>
+    @endforeach
 </x-language-switcher::dropdown>

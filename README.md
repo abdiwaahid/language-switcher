@@ -13,6 +13,11 @@ A simple language switcher for your Laravel applications. This package provides 
 *   **User-Aware Caching:** When using the `cache` driver, the locale is cached specifically for each authenticated user.
 *   **Facade for Convenience:** A clean and simple facade for easy interaction with the package's functionality.
 
+## Requirements
+
+*   PHP 8.3 or higher
+*   Laravel 10.x, 11.x, 12.x, or 13.x
+
 ## Installation
 
 You can install the package via composer:
@@ -213,6 +218,14 @@ This returns a collection of all configured languages, excluding the current one
 
 ```php
 $languages = LanguageSwitcher::languages();
+```
+
+### Artisan Command
+
+You can inspect the current locale and all configured languages using the bundled Artisan command:
+
+```bash
+php artisan language-switcher
 ```
 
 ### Driver Configuration
